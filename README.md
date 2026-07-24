@@ -420,6 +420,60 @@ This architecture provides:
 ✅ Managed database service  
 ✅ Reproducible infrastructure  
 
+## Monitoring and Observability
+
+The application uses Amazon CloudWatch Agent and CloudWatch Alarms to provide production monitoring and operational visibility.
+
+### CloudWatch Dashboard
+
+Configured metrics:
+
+- CPU utilization
+- Memory usage
+- Disk utilization
+
+![CloudWatch Dashboard](images/cloudwatch-dashboard.png)
+
+
+### CloudWatch Alarms
+
+Configured alarms:
+
+### High CPU Alarm
+Monitors Auto Scaling Group CPU utilization.
+
+Trigger:
+- CPU usage >= 80% for 5 minutes
+
+![CloudWatch CPU Alarm](images/cpu-alarm.png)
+
+### High Memory Alarm
+Monitors EC2 memory consumption using CloudWatch Agent.
+
+Trigger:
+- Memory usage >= 85% for 5 minutes
+
+![CloudWatch Memory Alarm](images/memory-alarm.png)
+
+### High Disk Alarm
+Monitors EC2 disk utilization.
+
+Trigger:
+- Disk usage >= 80% for 5 minutes
+
+![CloudWatch Disk Alarm](images/disk-alarm.png)
+
+### SNS Notifications
+
+CloudWatch alarms publish notifications through Amazon SNS.
+
+Alert flow:
+
+CloudWatch Alarm  
+⬇️  
+SNS Topic  
+⬇️  
+Email Notification
 
 ---
 
