@@ -432,7 +432,7 @@ Configured metrics:
 - Memory usage
 - Disk utilization
 
-![CloudWatch Dashboard](images/cloudwatch-dashboard.png)
+![Cloudwatch Dashboard](images/cloudwatch-dashboard.png)
 
 
 ### CloudWatch Alarms
@@ -445,7 +445,7 @@ Monitors Auto Scaling Group CPU utilization.
 Trigger:
 - CPU usage >= 80% for 5 minutes
 
-![CloudWatch CPU Alarm](images/cpu-alarm.png)
+![CPU Alarm](images/cpu-alarm.png)
 
 ### High Memory Alarm
 Monitors EC2 memory consumption using CloudWatch Agent.
@@ -453,7 +453,7 @@ Monitors EC2 memory consumption using CloudWatch Agent.
 Trigger:
 - Memory usage >= 85% for 5 minutes
 
-![CloudWatch Memory Alarm](images/memory-alarm.png)
+![Memory Alarm](images/memory-alarm.png)
 
 ### High Disk Alarm
 Monitors EC2 disk utilization.
@@ -461,7 +461,7 @@ Monitors EC2 disk utilization.
 Trigger:
 - Disk usage >= 80% for 5 minutes
 
-![CloudWatch Disk Alarm](images/disk-alarm.png)
+![Disk Alarm](images/disk-alarm.png)
 
 ### SNS Notifications
 
