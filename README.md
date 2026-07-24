@@ -4,99 +4,97 @@
 
 ## 📌 Project Overview
 
-Many startups and small businesses begin by hosting applications on a single server. This creates several problems:
+Modern startups and businesses require applications that are reliable, scalable, secure, and easy to deploy. Traditional single-server deployments create challenges such as:
 
-- Application downtime when the server fails
+- Application downtime when servers fail
 - Manual deployments
 - Limited scalability
 - Poor infrastructure visibility
-- Security challenges
+- Security risks
 
-This project solves these challenges by designing and deploying a **highly available, scalable, and secure two-tier web application architecture on AWS**.
+This project demonstrates the design and deployment of a **production-style two-tier web application architecture on AWS** using Cloud Engineering and DevOps best practices.
 
-The application is built using modern Cloud Engineering and DevOps practices including:
+The solution provides:
 
-- Infrastructure as Code
-- Containerization
-- Load Balancing
-- Auto Scaling
-- Secure Networking
-- Managed Database Services
-- IAM Security
-- Automated Infrastructure Provisioning
+✅ Highly available application hosting  
+✅ Automated infrastructure provisioning  
+✅ Containerized application deployment  
+✅ Secure database architecture  
+✅ Auto Scaling capabilities  
+✅ Monitoring and alerting  
+✅ Secure secrets management  
 
 
 ---
 
-# 🎯 Project Objectives
+# 🎯 Business Problem
 
-The goal of this project was to design a production-style cloud environment where:
+Many small businesses begin with applications running on a single server.
 
-✅ Application servers can scale automatically  
-✅ Traffic is distributed across multiple instances  
-✅ Infrastructure can be recreated using Terraform  
-✅ Application deployment is containerized using Docker  
-✅ Database resources are isolated securely  
-✅ AWS security best practices are followed  
+This creates problems:
 
+- A server failure causes application downtime
+- Deployments require manual processes
+- Infrastructure is difficult to recreate
+- Database security is limited
+- Scaling during traffic increases becomes challenging
+
+
+---
+
+# 💡 Proposed Solution
+
+A highly available AWS architecture was designed using:
+
+- Application Load Balancer
+- Auto Scaling Group
+- EC2 Docker containers
+- Amazon RDS MySQL
+- Terraform Infrastructure as Code
+- GitHub Actions CI/CD
+- Amazon ECR
+- CloudWatch Monitoring
+- AWS Secrets Manager
 
 ---
 
 # 🏗️ Architecture Overview
-
-The solution implements a two-tier architecture:
-
-```
                     Users
-                      |
-                      |
-                      ↓
+                       |
+                       |
+                       v
 
-          Application Load Balancer
-                      |
-                      |
-                      ↓
+             Application Load Balancer
+
+                       |
+                       |
 
           Auto Scaling Group
-                      |
-        -------------------------
-        |                       |
-        ↓                       ↓
 
-    EC2 Instance          EC2 Instance
-    Docker Container      Docker Container
+         ---------------------
+         |                   |
+         v                   v
 
-
-                      |
-                      ↓
-
-              Amazon RDS MySQL
+      EC2 Instance       EC2 Instance
+      Docker App         Docker App
 
 
-Terraform provisions the AWS infrastructure
+                       |
+                       v
 
-GitHub
-   |
-   ↓
-Docker Image
-   |
-   ↓
-Amazon ECR
-   |
-   ↓
-EC2 Deployment
-```
+                 Amazon RDS MySQL
+
 
 ---
-
 # ☁️ AWS Services Used
 
 ## Networking
 
-### Amazon VPC
+## Amazon VPC
 
-Created a custom Virtual Private Cloud containing:
+Implemented:
 
+- Custom VPC
 - Public subnets
 - Private subnets
 - Internet Gateway
@@ -104,85 +102,62 @@ Created a custom Virtual Private Cloud containing:
 - Route Tables
 
 
+---
+
 ## Compute
 
-### Amazon EC2
-
-Used EC2 instances to run Dockerized application containers.
+## Amazon EC2
 
 Features:
 
 - Amazon Linux 2023
+- Docker runtime
 - Private subnet deployment
 - IAM instance profile
-- Automated Docker installation
+- AWS Systems Manager (SSM) management access
 
+
+---
 
 ## Load Balancing
 
-### Application Load Balancer
+## Application Load Balancer
 
 Provides:
 
 - Traffic distribution
-- High availability
 - Health checks
+- High availability
 - Fault tolerance
 
 
+---
+
 ## Auto Scaling
 
-### Auto Scaling Group
+Configured:
 
-Configured with:
+| Setting | Value |
+|---|---|
+| Minimum | 1 instance |
+| Desired | 2 instances |
+| Maximum | 3 instances |
 
-- Minimum instances: 1
-- Desired instances: 2
-- Maximum instances: 3
-
-The system automatically replaces unhealthy instances.
+The Auto Scaling Group automatically replaces unhealthy instances and maintains application availability.
 
 
-## Database
+---
 
-### Amazon RDS MySQL
+# Database
 
-Provides:
+## Amazon RDS MySQL
+
+Features:
 
 - Managed relational database
 - Private subnet deployment
-- Secure access through security groups
-
-
-## Containerization
-
-### Docker
-
-The Flask application is packaged into a Docker image and deployed consistently across EC2 instances.
-
-
-## Container Registry
-
-### Amazon ECR
-
-Stores and manages Docker images used by EC2 instances.
-
-
-## Infrastructure as Code
-
-### Terraform
-
-Terraform was used to provision:
-
-- VPC
-- Subnets
-- Security Groups
-- ALB
-- Target Groups
-- EC2 Launch Templates
-- Auto Scaling Groups
-- RDS
-- IAM Roles
+- Security group controlled access
+- Multi-tier architecture
 
 
 ---
@@ -193,166 +168,263 @@ Terraform was used to provision:
 |---|---|
 | Cloud Provider | AWS |
 | Infrastructure as Code | Terraform |
-| Containerization | Docker |
+| CI/CD | GitHub Actions |
+| Containers | Docker |
+| Registry | Amazon ECR |
 | Application | Python Flask |
-| Web Server | Gunicorn |
 | Database | MySQL |
 | Operating System | Amazon Linux 2023 |
-| Container Registry | Amazon ECR |
+| Monitoring | Amazon CloudWatch |
+| Secrets Management | AWS Secrets Manager |
 | Version Control | GitHub |
-| Scripting | Bash |
+
+
+---
+
+# ⚙️ Infrastructure as Code
+
+Terraform provisions the complete AWS environment.
+
+## Created Resources:
+
+- VPC
+- Subnets
+- Route Tables
+- Security Groups
+- Application Load Balancer
+- Target Groups
+- Launch Templates
+- Auto Scaling Group
+- EC2 Instances
+- RDS Database
+- IAM Roles
+
+
+---
+
+## Terraform Remote State
+
+Terraform state is stored remotely using:
+
+- Amazon S3 backend
+- State locking
+- Encryption
+
+
+### Benefits:
+
+- Team collaboration
+- State protection
+- Infrastructure consistency
+- Safer Terraform deployments
+
+
+---
+
+# 🐳 Container Deployment
+
+The Flask application is containerized using Docker.
+
+Docker provides:
+
+- Consistent application environments
+- Portable deployments
+- Simplified application delivery
+
+The Docker image is stored in Amazon ECR and pulled by EC2 instances during deployment.
+
+# 🚀 CI/CD Pipeline
+
+Implemented using **GitHub Actions**.
+
+## Pipeline Flow
+
+```
+GitHub Push
+
+      |
+      v
+
+GitHub Actions
+
+      |
+      v
+
+Docker Build
+
+      |
+      v
+
+Push Image to Amazon ECR
+
+      |
+      v
+
+Terraform Deployment
+
+      |
+      v
+
+Production Environment
+```
+
+
+## Pipeline Features
+
+✅ Automated Docker builds  
+✅ Docker image publishing to Amazon ECR  
+✅ Infrastructure validation  
+✅ Deployment approval process  
+✅ Production deployment workflow  
 
 
 ---
 
 # 🔐 Security Implementation
 
-Security best practices implemented:
-
 ## Network Security
+
+Implemented:
 
 - Application Load Balancer deployed in public subnets
 - EC2 instances deployed in private subnets
-- Database isolated in private networking
-- NAT Gateway used for private subnet outbound access
+- RDS database deployed in private subnets
+- Restricted security group communication
 
+
+## Traffic Flow
+
+```
+Internet
+
+   |
+
+   v
+
+ALB :80
+
+
+ALB
+
+   |
+
+   v
+
+EC2 :5000
+
+
+EC2
+
+   |
+
+   v
+
+RDS :3306
+```
+
+
+---
 
 ## IAM Security
 
 Implemented:
 
 - EC2 IAM Role
-- AmazonSSMManagedInstanceCore
-- AmazonEC2ContainerRegistryReadOnly
+- AWS Systems Manager access
+- Amazon ECR read-only access
+- CloudWatch Agent permissions
+- AWS Secrets Manager access
 
 
-## Security Groups
+---
 
-Configured:
+# 🔑 Secrets Management
 
-### ALB Security Group
+Database credentials are stored securely using:
 
-Allows:
+**AWS Secrets Manager**
+
+
+## Benefits:
+
+- No credentials stored in GitHub
+- Centralized secret management
+- Improved security posture
+- Reduced risk of credential exposure
+
+
+---
+
+# 📊 Monitoring & Observability
+
+Amazon CloudWatch provides operational visibility into the application infrastructure.
+
+
+## Configured Metrics:
+
+- CPU utilization
+- Memory usage
+- Disk utilization
+
+
+---
+
+# CloudWatch Alarms
+
+Implemented monitoring alarms:
+
+
+## CPU Alarm
+
+Trigger:
 
 ```
-Internet → Port 80 → Load Balancer
+CPU usage >= 80% for 5 minutes
 ```
 
 
-### EC2 Security Group
+## Memory Alarm
 
-Allows:
-
-```
-ALB → Port 5000 → Application Servers
-```
-
-
-### RDS Security Group
-
-Allows:
+Trigger:
 
 ```
-EC2 → Port 3306 → MySQL Database
+Memory usage >= 85%
+```
+
+
+## Disk Alarm
+
+Trigger:
+
+```
+Disk usage >= 80%
 ```
 
 
 ---
 
-# 🐳 Application Deployment
-
-The application is a Python Flask API.
-
-Available endpoints:
-
-## Homepage
+## Alert Flow
 
 ```
-GET /
+CloudWatch Alarm
+
+        |
+
+        v
+
+SNS Topic
+
+        |
+
+        v
+
+Email Notification
 ```
-
-Response:
-
-```json
-{
- "message": "AWS Two-Tier Web Application is Running!",
- "status": "success"
-}
-```
-
-
-## Health Check
-
-```
-GET /health
-```
-
-Used by the Application Load Balancer.
-
-Response:
-
-```json
-{
- "health": "OK"
-}
-```
-
-
----
-
-# 🚀 Deployment Process
-
-## 1. Build Docker Image
-
-```bash
-docker build -f docker/Dockerfile -t aws-two-tier-app .
-```
-
-
-## 2. Push Image to Amazon ECR
-
-```bash
-docker push <ECR_REPOSITORY_URI>
-```
-
-
-## 3. Provision Infrastructure
-
-Navigate to Terraform folder:
-
-```bash
-cd terraform
-```
-
-Initialize Terraform:
-
-```bash
-terraform init
-```
-
-Deploy:
-
-```bash
-terraform apply
-```
-
-
-## 4. Application Deployment
-
-EC2 instances automatically:
-
-- Install Docker
-- Authenticate with ECR
-- Pull application image
-- Start application container
 
 
 ---
 
 # 📊 Deployment Screenshots
-
-
-# 📷 Screenshots
 
 ## AWS Architecture
 
@@ -477,9 +549,69 @@ Email Notification
 
 ---
 
-# 🧠 Skills Demonstrated
+---
 
-This project demonstrates practical experience with:
+# 🧠 Challenges & Solutions
+
+
+## Terraform State Management
+
+### Challenge:
+
+Managing Terraform state safely and consistently.
+
+
+### Solution:
+
+Implemented:
+
+- Amazon S3 remote backend
+- State locking
+- Encrypted Terraform state storage
+
+
+---
+
+## EC2 Monitoring
+
+### Challenge:
+
+Default EC2 metrics do not provide memory and disk utilization.
+
+
+### Solution:
+
+Installed and configured the Amazon CloudWatch Agent to collect custom system metrics.
+
+
+---
+
+## Secure Credentials
+
+### Challenge:
+
+Avoid storing database passwords directly in Terraform variables.
+
+
+### Solution:
+
+Integrated AWS Secrets Manager for secure credential storage.
+
+
+---
+
+# 💰 Cost Optimization Considerations
+
+Implemented cost-conscious design:
+
+- EC2 Auto Scaling prevents over-provisioning
+- Private subnets reduce unnecessary public exposure
+- Terraform enables infrastructure lifecycle management
+- CloudWatch monitoring prevents resource waste
+- RDS sizing can be adjusted based on workload
+
+# 📈 Skills Demonstrated
+
 
 ## Cloud Engineering
 
@@ -488,81 +620,67 @@ This project demonstrates practical experience with:
 - EC2 deployment
 - RDS management
 - Load balancing
+- Auto Scaling
 
+
+---
 
 ## DevOps
 
-- Infrastructure as Code
-- Docker deployment
+- Terraform (Infrastructure as Code)
+- Docker containerization
+- GitHub Actions
+- CI/CD pipelines
 - Linux administration
-- Automation scripting
 
 
-## Networking
-
-- Public/private subnet design
-- Routing
-- Security Groups
-- NAT Gateway
-
+---
 
 ## Security
 
-- IAM roles
+- IAM
+- Secrets management
+- Private networking
+- Security Groups
 - Least privilege access
-- Secure database connectivity
 
 
 ---
 
 # 🔮 Future Improvements
 
-Planned enhancements:
-
-## CI/CD Pipeline
-
-Implement:
-
-- GitHub Actions
-- Automated Docker builds
-- Automated deployments
-
-
-## Monitoring
-
-Add:
-
-- CloudWatch dashboards
-- EC2 alarms
-- ALB monitoring
-- SNS notifications
-
-
-## Advanced Deployment Strategies
-
-Future upgrades:
+Potential upgrades:
 
 - Blue/Green deployments
-- Kubernetes (Amazon EKS)
-- AWS WAF integration
-- Multi-region deployment
-
+- Kubernetes with Amazon EKS
+- AWS WAF protection
+- Multi-region disaster recovery
+- Application performance monitoring
 
 ---
+# 📚 Lessons Learned
+
+Through this project I gained practical experience with:
+
+- Designing highly available AWS architectures
+- Managing infrastructure using Terraform
+- Deploying containerized applications
+- Implementing secure cloud networking
+- Monitoring production workloads
+- Automating deployments with CI/CD
 
 # ⭐ Project Status
 
-✅ Infrastructure deployed successfully  
-✅ Docker application running  
-✅ ALB configured  
-✅ Auto Scaling working  
-✅ EC2 health checks passing  
-✅ RDS connected  
-✅ Terraform deployment completed  
+✅ AWS infrastructure deployed  
+✅ Terraform automation completed  
+✅ Docker deployment completed  
+✅ CI/CD pipeline implemented  
+✅ Monitoring configured  
+✅ CloudWatch alarms configured  
+✅ Secrets Manager integrated  
+✅ Production environment operational  
 
-Next phase: CI/CD pipeline and CloudWatch monitoring.
-
-
+---
 
 # 👩🏽‍💻 Author
 
@@ -570,7 +688,10 @@ Next phase: CI/CD pipeline and CloudWatch monitoring.
 
 Cloud Engineering | AWS | DevOps
 
+
 LinkedIn:
+
 https://www.linkedin.com/in/chisomaga-a-685ba1408
+
 
 ---
